@@ -1,4 +1,3 @@
-// Homepage/public/js/main.js
 document.addEventListener('DOMContentLoaded', () => {
     loadProjects();
     
@@ -38,13 +37,37 @@ async function loadProjects() {
         projects.forEach(project => {
             const projectElement = document.createElement('div');
             projectElement.className = 'project-card';
-            projectElement.innerHTML = `
+            
+            // Create link element
+            const projectLink = document.createElement('a');
+            projectLink.href = `/project/${project.id}`;
+            projectLink.className = 'project-link';
+            projectLink.style.textDecoration = 'none';
+            projectLink.style.color = 'inherit';
+            projectLink.style.flex = '1';
+            
+            // Create project content
+            const projectContent = `
                 <div>
                     <h4>${project.name}</h4>
                     <small class="text-muted">Created: ${new Date(project.created_at).toLocaleDateString()}</small>
                 </div>
-                <button class="btn-delete" onclick="deleteProject(${project.id})">Delete</button>
             `;
+            
+            projectLink.innerHTML = projectContent;
+            
+            // Create delete button
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn-delete';
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = (e) => {
+                e.preventDefault(); // Prevent link click
+                deleteProject(project.id);
+            };
+            
+            // Assemble project card
+            projectElement.appendChild(projectLink);
+            projectElement.appendChild(deleteButton);
             projectsList.appendChild(projectElement);
         });
     } catch (error) {

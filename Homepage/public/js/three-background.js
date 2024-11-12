@@ -1,4 +1,3 @@
-// Homepage/public/js/three-background.js
 let scene, camera, renderer;
 let particles;
 
